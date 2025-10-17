@@ -1,0 +1,50 @@
+# BioFusion PQ — Prototype Scaffold
+
+> Windows 11 + Python 3.11. All paths shown are PowerShell-friendly.
+
+
+---
+
+## 1) Setup (venv + deps)
+
+```powershell
+# From the repo root
+py -3.11 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+pip install -r .\requirements.txt
+2) Run ProtoChain devnet
+# From the repo root (venv active)
+uvicorn src.protochain:app --host 127.0.0.1 --port 8000 --reload
+Run Streamlit lab (app.py)
+# From the repo root (venv active)
+streamlit run .\src\app.py --server.port 8501
+Bulk wallet generation
+data\index.sample.csv
+path,user_id
+data/modalities/user01_face.png,user01
+data/modalities/user02_face.png,user02
+path,user_id
+data/modalities/user01_face.png,user01
+data/modalities/user02_face.png,user02
+Generate outputs
+
+CSV:
+python .\src\bulk_wallets.py --in .\data\index.sample.csv --out .\artifacts\summary.csv --format csv
+JSONL:
+python .\src\bulk_wallets.py --in .\data\index.sample.csv --out .\artifacts\summary.jsonl --format jsonl
+5) Exporting CSV / PDF from Streamlit
+
+CSV (typical patterns):
+
+If the app shows a “Download CSV” button, click it to save the current table/metrics.
+
+If there’s a table meant for export but no button, select the table’s data and paste into Excel, then File → Save As → CSV (quick fallback).
+
+PDF of the app/figures (no code changes):
+
+In your browser on the Streamlit page, press Ctrl+P → Destination: Microsoft Print to PDF → More settings → enable Background graphics → Print.
+
+For only a plot/section, use the element’s context menu (if present) or right-click the image → Open image in new tab → print that tab to PDF.
+
+(If you prefer in-app one-click exports, add a st.download_button for CSV and a savefig('figures/...pdf') call where you create the Matplotlib figures.)

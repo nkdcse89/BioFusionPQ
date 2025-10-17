@@ -1,0 +1,28 @@
+﻿version: "3.9"
+services:
+  protochain:
+    build: .
+    image: biofusionpq:latest
+    command: gunicorn -k uvicorn.workers.UvicornWorker -w 8 -b 0.0.0.0:9000 src.protochain:app
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - ./artifacts:/app/artifacts
+      - ./figures:/app/figures
+
+  ui:
+    image: biofusionpq:latest
+    depends_on:
+      - protochain
+    command: python -m streamlit run src/app.py --server.port 8501 --server.address 0.0.0.0
+    ports:
+      - "8501:8501"
+    restart: unless-stopped
+    environment:
+      NODE_URL: http://protochain:9000
+    volumes:
+      - ./data:/app/data
+      - ./artifacts:/app/artifacts
+      - ./figures:/app/figures

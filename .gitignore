@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+artifacts/
+figures/
+data/datasets/
+data/index.csv
+.vscode/
+.streamlit/
+.kaggle/

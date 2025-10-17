@@ -1,0 +1,13 @@
+﻿fastapi
+uvicorn[standard]
+gunicorn
+pydantic
+requests
+streamlit
+numpy
+pandas
+matplotlib
+psutil
+pynacl
+cryptography
+aiohttp
